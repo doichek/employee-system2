@@ -1,0 +1,102 @@
+package actions.views;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import models.Employee;
+
+/**
+ * 従業員データのDTOモデル⇔Viewモデルの変換を行うクラス
+ *
+ */
+public class EmployeeConverter {
+
+    /**
+     * ViewモデルのインスタンスからDTOモデルのインスタンスを作成する
+     * @param ev EmployeeViewのインスタンス
+     * @return Employeeのインスタンス
+     */
+    public static Employee toModel(EmployeeView ev) {
+
+        return new Employee(
+                ev.getId(),
+                ev.getCode(),
+                ev.getName(),
+                ev.getPassword(),
+                ev.getAdminFlag() == null
+                        ? null
+                        : ev.getAdminFlag() == 1
+                                ? 1
+                                : 0,
+                ev.getCreatedAt(),
+                ev.getUpdatedAt(),
+                ev.getDeleteFlag() == null
+                        ? null
+                        : ev.getDeleteFlag() == 1
+                                ? 1
+                                : 0);
+    }
+
+    /**
+     * DTOモデルのインスタンスからViewモデルのインスタンスを作成する
+     * @param e Employeeのインスタンス
+     * @return EmployeeViewのインスタンス
+     */
+    public static EmployeeView toView(Employee e) {
+
+        if(e == null) {
+            return null;
+        }
+
+        return new EmployeeView(
+                e.getId(),
+                e.getCode(),
+                e.getName(),
+                e.getPassword(),
+                e.getAdminFlag() == null
+                        ? null
+                        : e.getAdminFlag() == 1
+                                ? 1
+                                : 0,
+                e.getCreatedAt(),
+                e.getUpdatedAt(),
+                e.getDeleteFlag() == null
+                        ? null
+                        : e.getDeleteFlag() == 1
+                                ? 1
+                                : 0);
+    }
+
+    /**
+     * DTOモデルのリストからViewモデルのリストを作成する
+     * @param list DTOモデルのリスト
+     * @return Viewモデルのリスト
+     */
+    public static List<EmployeeView> toViewList(List<Employee> list) {
+        List<EmployeeView> evs = new ArrayList<>();
+
+        for (Employee e : list) {
+            evs.add(toView(e));
+        }
+
+        return evs;
+    }
+
+    /**
+     * Viewモデルの全フィールドの内容をDTOモデルのフィールドにコピーする
+     * @param e DTOモデル(コピー先)
+     * @param ev Viewモデル(コピー元)
+     */
+    public static void copyViewToModel(Employee e, EmployeeView ev) {
+        e.setId(ev.getId());
+        e.setCode(ev.getCode());
+        e.setName(ev.getName());
+        e.setPassword(ev.getPassword());
+        e.setAdminFlag(ev.getAdminFlag());
+        e.setCreatedAt(ev.getCreatedAt());
+        e.setUpdatedAt(ev.getUpdatedAt());
+        e.setDeleteFlag(ev.getDeleteFlag());
+
+    }
+
+}
