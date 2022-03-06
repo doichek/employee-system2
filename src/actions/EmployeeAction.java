@@ -177,4 +177,53 @@ public class EmployeeAction extends ActionBase {
     }
 
 
+    /**
+     * 更新を行う
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void update() throws ServletException, IOException {
+
+        //CSRF対策 tokenのチェック
+        if (checkToken()) {
+            //パラメータの値を元に従業員情報のインスタンスを作成する
+            EmployeeView ev = new EmployeeView(
+                    toNumber(getRequestParam("id")),
+                    getRequestParam("code"),
+                    getRequestParam("name"),
+                    getRequestParam("password"),
+                    toNumber(getRequestParam("adminFlag")),
+                    null,
+                    null,
+                    0);
+
+            //アプリケーションスコープからpepper文字列を取得
+            String pepper = getContextScope("pepper");
+
+            //従業員情報更新
+            List<String> errors = service.update(ev, pepper);
+
+            if (errors.size() > 0) {
+                //更新中にエラーが発生した場合
+
+                putRequestScope("_token", getTokenId()); //CSRF対策用トークン
+                putRequestScope("employee", ev); //入力された従業員情報
+                putRequestScope("errors", errors); //エラーのリスト
+
+                //編集画面を再表示
+                forward("employees/edit");
+            } else {
+                //更新中にエラーがなかった場合
+
+                //セッションに更新完了のフラッシュメッセージを設定
+                putSessionScope("flush", "更新が完了しました。");
+
+                //一覧画面にリダイレクト
+                redirect("Employee", "index");
+            }
+        }
+    }
+
+
+
 }
