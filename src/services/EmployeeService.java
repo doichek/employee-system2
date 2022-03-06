@@ -88,6 +88,7 @@ public class EmployeeService extends ServiceBase {
         long employees_count = (long) em.createNamedQuery("employee.countRegisteredByCode", Long.class)
                 .setParameter("code", code)
                 .getSingleResult();
+
         return employees_count;
     }
 

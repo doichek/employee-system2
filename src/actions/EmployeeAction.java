@@ -63,4 +63,118 @@ public class EmployeeAction extends ActionBase {
 
     }
 
+    /**
+     * 新規登録画面を表示する
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void entryNew() throws ServletException, IOException {
+
+        putRequestScope("_token",getTokenId()); //CSRF対策用トークン
+        putRequestScope("employee", new EmployeeView()); //空の従業員インスタンス
+
+        //新規登録画面を表示
+        forward("employees/new");
+    }
+
+    /**
+     * 新規登録を行う
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void create() throws ServletException, IOException {
+
+        //CSRF対策 tokenのチェック
+        if (checkToken()) {
+
+            //パラメータの値を元に従業員情報のインスタンスを作成する
+            EmployeeView ev = new EmployeeView(
+                    null,
+                    getRequestParam("code"),
+                    getRequestParam("name"),
+                    getRequestParam("password"),
+                    toNumber(getRequestParam("admin_flag")),
+                    null,
+                    null,
+                    0);
+
+            //アプリケーションスコープからpepper文字列を取得
+            String pepper = getContextScope("pepper");
+
+            //従業員情報登録
+            List<String> errors = service.create(ev, pepper);
+
+            if (errors.size() > 0) {
+                //登録中にエラーがあった場合
+
+                putRequestScope("_token", getTokenId()); //CSRF対策用トークン
+                putRequestScope("employee", ev); //入力された従業員情報
+                putRequestScope("errors", errors); //エラーのリスト
+
+                //新規登録画面を再表示
+                forward("employees/new");
+
+            } else {
+                //登録中にエラーがなかった場合
+
+                //セッションに登録完了のフラッシュメッセージを設定
+                putSessionScope("flush", "登録が完了しました。");
+
+                //一覧画面にリダイレクト
+                redirect("Employee", "index");
+            }
+
+        }
+    }
+
+
+    /**
+     * 詳細画面を表示する
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void show() throws ServletException, IOException {
+
+        //idを条件に従業員データを取得する
+        EmployeeView ev = service.findOne(toNumber(getRequestParam("id")));
+
+        if (ev == null || ev.getDeleteFlag() == 1) {
+
+            //データが取得できなかった、または論理削除されている場合はエラー画面を表示
+            forward("error/unknown");
+            return;
+        }
+
+        putRequestScope("employee", ev); //取得した従業員情報
+
+        //詳細画面を表示
+        forward("employees/show");
+    }
+
+    /**
+     * 編集画面を表示する
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void edit() throws ServletException, IOException {
+
+        //idを条件に従業員データを取得する
+        EmployeeView ev = service.findOne(toNumber(getRequestParam("id")));
+
+        if (ev == null || ev.getDeleteFlag() == 1) {
+
+            //データが取得できなかった、または論理削除されている場合はエラー画面を表示
+            forward("error/unknown");
+            return;
+        }
+
+        putRequestScope("_token", getTokenId()); //CSRF対策用トークン
+        putRequestScope("employee", ev); //取得した従業員情報
+
+        //編集画面を表示する
+        forward("employees/edit");
+
+    }
+
+
 }

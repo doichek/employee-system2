@@ -29,7 +29,7 @@ import lombok.Setter;
             name = "employee.count",
             query = "SELECT COUNT(e) FROM Employee AS e"),
     @NamedQuery(
-            name = "emoloyee.countRegisteredByCode",
+            name = "employee.countRegisteredByCode",
             query = "SELECT COUNT(e) FROM Employee AS e WHERE e.code = :code"),
     @NamedQuery(
             name = "employee.getByCodeAndPass",
@@ -72,25 +72,25 @@ public class Employee {
     /**
      * 管理者権限があるかどうか（一般：0、管理者：1）
      */
-    @Column(name = "adminFlag", nullable = false)
+    @Column(name = "admin_flag", nullable = false)
     private Integer adminFlag;
 
     /**
      *登録日時
      */
-    @Column(name = "createAt", nullable = false)
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
     /**
      * 更新日時
      */
-    @Column(name = "updateAt", nullable = false)
+    @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
     /**
      * 削除された従業員かどうか（現役：0、削除済み：1）
      */
-    @Column(name = "deleteFlag", nullable = false)
+    @Column(name = "delete_flag", nullable = false)
     private Integer deleteFlag;
 
 }
