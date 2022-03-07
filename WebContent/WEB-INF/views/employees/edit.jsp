@@ -5,7 +5,7 @@
 <c:set var="action" value="Employee" />
 <c:set var="commIdx" value="index" />
 <c:set var="commUpd" value="update" />
-<c:set var="commDel" value="delete" />
+<c:set var="commDel" value="destroy" />
 
 <c:import url="/WEB-INF/views/layout/app.jsp">
     <c:param name="content">
