@@ -76,8 +76,10 @@ public class AuthAction extends ActionBase {
                 putSessionScope("login_employee", ev);
                 //セッションにログイン完了のフラッシュメッセージを設定
                 putSessionScope("flush", "ログインしました");
-                //トップページへリダイレクト
-                redirect("Top","index" );
+//                //トップページへリダイレクト
+//                redirect("Top","index" );
+                //勤怠管理画面へリダイレクト
+                redirect("Attendance","index" );
             }
         } else {
             //認証失敗の場合
