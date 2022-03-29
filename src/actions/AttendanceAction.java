@@ -68,6 +68,11 @@ public class AttendanceAction extends ActionBase {
                 putRequestScope("flush", flush);
                 removeSessionScope("flush");
             }
+            String flush_error = getSessionScope("flush_error");
+            if (flush_error != null) {
+                putRequestScope("flush_error", flush_error);
+                removeSessionScope("flush_error");
+            }
 
 
             //////カレンダー表示///////////////
@@ -188,7 +193,7 @@ public class AttendanceAction extends ActionBase {
                 if (errors.size() > 0) {
                     //登録中にエラーがあった場合
                     if( 1 == toNumber(getRequestParam("shukkinn")) ) {//出勤打刻でのエラー
-                        putSessionScope("flush", errors.get(0));
+                        putSessionScope("flush_error", errors.get(0));
                         redirect("Attendance", "index");
                     }else {//新規登録画面の手入力でのエラー
                         putRequestScope("_token", getTokenId()); //CSRF対策用トークン
@@ -334,7 +339,7 @@ public class AttendanceAction extends ActionBase {
                     //更新中にエラーが発生した場合
 
                     if(  0 == toNumber(getRequestParam("shukkinn"))  ||  1 == toNumber(getRequestParam("shukkinn"))  ) {
-                        putSessionScope("flush", errors.get(0));
+                        putSessionScope("flush_error", errors.get(0));
                         redirect("Attendance", "index");
                     }else {
 

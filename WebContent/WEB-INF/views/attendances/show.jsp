@@ -6,11 +6,8 @@
         <c:choose>
           <c:when test="${attendance != null}">
 
-            <h2>id : ${attendance.id} の勤怠情報詳細ページ</h2>
+            <h2><c:out value="${attendance.year}" />年<c:out value="${attendance.month}" />月<c:out value="${attendance.date}" />日の勤怠情報詳細ページ</h2>
 
-            <p>年：<c:out value="${attendance.year}" /></p>
-            <p>月：<c:out value="${attendance.month}" /></p>
-            <p>日：<c:out value="${attendance.date}" /></p>
             <p>出勤時間：<c:out value="${attendance.starting_time}" /></p>
             <p>退勤時間：<c:out value="${attendance.quitting_time}" /></p>
             <p>備考欄：<c:out value="${attendance.content}" /></p>

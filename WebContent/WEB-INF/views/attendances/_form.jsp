@@ -9,18 +9,11 @@
     </div>
 </c:if>
 
-<label for="year">年</label><br />
-<input type="text" name="year" value="${year}" readonly />
-<br /><br />
 
+<input type="hidden" name="year" value="${year}"/>
+<input type="hidden" name="month" value="${month}"/>
+<input type="hidden" name="date" value="${date}"/>
 
-<label for="month">月</label><br />
-<input type="text" name="month" value="${month}" readonly />
-<br /><br />
-
-<label for="date">日</label><br />
-<input type="text" name="date" value="${date}" readonly />
-<br /><br />
 
 <label for="starting_time">出勤時刻</label><br />
 <input type="text" name="starting_time" placeholder="hh:mm" value="${attendance.starting_time}" />

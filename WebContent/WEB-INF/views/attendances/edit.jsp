@@ -5,7 +5,7 @@
 
         <c:choose>
             <c:when test="${attendance != null}">
-                <h2>id : ${attendance.id} の勤怠情報入力(編集)ページ</h2>
+                <h2><c:out value="${year}" />年<c:out value="${month}" />月<c:out value="${date}" />日の勤怠情報入力(編集)ページ</h2>
 
                 <form method="POST" action="<c:url value='?action=Attendance&command=update' />">
                     <c:import url="_form.jsp" />

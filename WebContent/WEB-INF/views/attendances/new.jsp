@@ -2,8 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="../layout/app.jsp">
     <c:param name="content">
-        <h2>勤怠情報入力(新規)ページ</h2>
-
+        <h2><c:out value="${year}" />年<c:out value="${month}" />月<c:out value="${date}" />日の勤怠情報入力(新規)ページ</h2>
         <form method="POST" action="<c:url value='?action=Attendance&command=create' />">
             <c:import url="_form.jsp" />
         </form>
